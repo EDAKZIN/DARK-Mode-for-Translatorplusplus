@@ -14,34 +14,34 @@ const cssString = `
  */
 
 :root {
-    --gr-lv0: #000000 !important;
-    --gr-lv1: #050505 !important;
-    --gr-lv2: #0a0a0a !important;
-    --gr-lv3: #111111 !important;
-    --gr-lv4: #1a1a1a !important;
-    --gr-lv5: #222222 !important;
+    --gr-lv0: #121212 !important;
+    --gr-lv1: #1a1a1a !important;
+    --gr-lv2: #222222 !important;
+    --gr-lv3: #2d2d2d !important;
+    --gr-lv4: #333333 !important;
+    --gr-lv5: #3a3a3a !important;
 
-    --gr-lv12: #ffffff !important;
-    --gr-lv13: #ffffff !important;
-    --gr-lv14: #ffffff !important;
-    --gr-lv15: #ffffff !important;
-    --gr-lv16: #ffffff !important;
+    --gr-lv12: #e0e0e0 !important;
+    --gr-lv13: #e0e0e0 !important;
+    --gr-lv14: #e0e0e0 !important;
+    --gr-lv15: #e0e0e0 !important;
+    --gr-lv16: #e0e0e0 !important;
     
-    --text-color: #ffffff !important;
-    --text-color-dark: #ffffff !important;
+    --text-color: #e0e0e0 !important;
+    --text-color-dark: #e0e0e0 !important;
     --text-color-highlighted: #ffffff !important;
     
-    --bg-row-odd: #000000 !important;
-    --bg-row-even: #080808 !important;
-    --bg-highlighted: #00e5ff !important;
+    --bg-row-odd: #121212 !important;
+    --bg-row-even: #1a1a1a !important;
+    --bg-highlighted: #00bcd4 !important;
     
-    --primary-color: #00e5ff !important;
-    --blue-500: #00e5ff !important;
+    --primary-color: #00bcd4 !important;
+    --blue-500: #00bcd4 !important;
 
-    --grid-bg: #000000 !important;
-    --grid-active-cell-bg: #111111 !important;
-    --table-header-bg: #1a1a1a !important;
-    --table-header-text-color: #ffffff !important;
+    --grid-bg: #121212 !important;
+    --grid-active-cell-bg: #222222 !important;
+    --table-header-bg: #2d2d2d !important;
+    --table-header-text-color: #e0e0e0 !important;
 }
 
 html { color-scheme: dark !important; }
@@ -54,89 +54,98 @@ body, .ui-widget-content, .ui-widget-header,
 #cellSelectionInfo, .cellInfoTabHeader, .tabButtons, .tabButton, 
 .cellInfoMenu, .cellInfoCtrl, .tabSide, .footer-content,
 .subToolbar, .switchableToolbar, #menuPanel, #mainArea, .appActionsLeft, .ribbonMenu {
-    background-color: #000000 !important;
-    color: #ffffff !important;
+    background-color: #121212 !important;
+    color: #e0e0e0 !important;
     background-image: none !important;
-    border-color: #222222 !important;
+    border-color: #333333 !important;
 }
 
 /* Ribbons and Tabs Active States */
 .tabButton.active, .ribbonMenu.active {
-    background-color: #111111 !important;
+    background-color: #1e1e1e !important;
     color: var(--primary-color) !important;
     border-bottom: 2px solid var(--primary-color) !important;
 }
 
 /* Input boxes in panels (like Quick Find, Filter) */
 input.search, input.quickFind, .menuPanelSearch {
-    background-color: #111111 !important;
-    color: #ffffff !important;
+    background-color: #1a1a1a !important;
+    color: #e0e0e0 !important;
     border: 1px solid #444 !important;
 }
 
 /* Lists and Tree nodes in Left Panel */
 .fileListUl > li, .tree > li, .list > li {
     background: transparent !important;
-    color: #cccccc !important;
+    color: #aaaaaa !important;
 }
 .fileListUl > li:hover, .tree > li:hover, .list > li:hover {
-    background-color: #111111 !important;
+    background-color: #222222 !important;
     color: #ffffff !important;
 }
 .fileListUl > li.selected, .tree > li.selected, .list > li.selected {
-    background-color: #222222 !important;
+    background-color: #333333 !important;
     color: var(--primary-color) !important;
 }
 
-.ui-dialog, .ui-dialog-content, .ui-tabs-panel, .options-content {
-    background: #050505 !important;
-    color: #ffffff !important;
+.ui-dialog, .ui-dialog-content, .ui-tabs-panel, .options-content, .dialogSection, .dialog, .modal-content {
+    background: #1e1e1e !important;
+    color: #e0e0e0 !important;
+}
+
+/* Fix warning boxes and badges */
+.blockBox, .alert, .badge, .percentDisplay {
+    background-color: #2d2d2d !important;
+    color: #e0e0e0 !important;
+    border-color: #444 !important;
+}
+.alert-warning {
+    border-left: 4px solid #ff9800 !important;
 }
 
 input, textarea, select {
-    background-color: #111111 !important;
-    color: #ffffff !important;
+    background-color: #222222 !important;
+    color: #e0e0e0 !important;
     border: 1px solid #444 !important;
 }
 
 button, .btn, .ui-button {
-    background: #1a1a1a !important;
-    color: #ffffff !important;
-    border: 1px solid #333 !important;
+    background: #2d2d2d !important;
+    color: #e0e0e0 !important;
+    border: 1px solid #444 !important;
 }
 
 button:hover, .btn:hover {
-    background: #333 !important;
+    background: #3a3a3a !important;
     border-color: var(--primary-color) !important;
 }
 
-.toolbar-button, .menu-button {
-    background: transparent !important;
-    border: 1px solid transparent !important;
-    color: #ffffff !important;
+/* Toolbar icons color fix */
+.appBarIcon, .toolbar-button, .menu-button, .bottomToolbarIcon {
+    color: #e0e0e0 !important;
 }
-
-.toolbar-button:hover {
-    background: #222 !important;
-    border-color: #444 !important;
+.appBarIcon:hover, .toolbar-button:hover, .menu-button:hover, .bottomToolbarIcon:hover {
+    background-color: #222222 !important;
+    color: var(--primary-color) !important;
 }
 
 .handsontable td {
-    background-color: #000000 !important;
-    color: #ffffff !important;
-    border-color: #222 !important;
+    background-color: #121212 !important;
+    color: #e0e0e0 !important;
+    border-color: #333333 !important;
 }
 
 .handsontable tr:nth-child(even) td {
-    background-color: #050505 !important;
+    background-color: #1a1a1a !important;
 }
 
 .handsontable th {
-    background-color: #111111 !important;
-    color: #ffffff !important;
+    background-color: #222222 !important;
+    color: #e0e0e0 !important;
 }
 
-img[src*="img/"], .icon- {
+/* Invert strictly ONLY the black image icons inside the main toolbars, avoid global invert! */
+.toolbar-button img, .menu-button img, .bottomToolbarIcon img {
     filter: invert(1) brightness(2) !important;
 }
 
@@ -144,14 +153,19 @@ img[src*="img/"], .icon- {
     filter: none !important;
 }
 
+/* Make sure dialog icons and start menu icons don't invert their colors */
+.iconBar img, .dialogSelection img {
+    filter: none !important;
+}
+
 ::-webkit-scrollbar { width: 12px !important; }
-::-webkit-scrollbar-track { background: #000 !important; }
+::-webkit-scrollbar-track { background: #121212 !important; }
 ::-webkit-scrollbar-thumb {
-    background: #333 !important;
-    border: 2px solid #000 !important;
+    background: #3a3a3a !important;
+    border: 2px solid #121212 !important;
     border-radius: 6px !important;
 }
-::-webkit-scrollbar-thumb:hover { background: #555 !important; }
+::-webkit-scrollbar-thumb:hover { background: #555555 !important; }
 `;
 
 thisAddon.cssString = cssString;
