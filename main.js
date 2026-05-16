@@ -26,6 +26,14 @@ const cssString = `
     --gr-lv14: #e0e0e0 !important;
     --gr-lv15: #e0e0e0 !important;
     --gr-lv16: #e0e0e0 !important;
+
+    /* Override info blocks gradient brightness */
+    --infoblock-bg: linear-gradient(rgba(30,30,30,.8), rgba(30,30,30,.9)), url(/www/img/info.png) !important;
+    --infoblock-bg-solid: linear-gradient(rgba(30,30,30,.8), rgba(30,30,30,.9)), url(/www/img/info.png), #121212 !important;
+    --warningblock-bg : linear-gradient(rgba(30,30,30,.8), rgba(30,30,30,.9)), url(/www/img/warning.png) !important;
+    --warningblock-bg-solid : linear-gradient(rgba(30,30,30,.8), rgba(30,30,30,.9)), url(/www/img/warning.png), #121212 !important;
+    --attentionblock-bg : linear-gradient(rgba(30,30,30,.8), rgba(30,30,30,.9)), url(/www/img/bt_attention.png) !important;
+    --errorblock-bg : linear-gradient(rgba(30,30,30,.8), rgba(30,30,30,.9)), url(/www/img/remove.png) !important;
     
     --text-color: #e0e0e0 !important;
     --text-color-dark: #e0e0e0 !important;
@@ -55,9 +63,14 @@ body, .ui-widget-content, .ui-widget-header,
 .cellInfoMenu, .cellInfoCtrl, .tabSide, .footer-content,
 .subToolbar, .switchableToolbar, #menuPanel, #mainArea, .appActionsLeft, .ribbonMenu {
     background-color: #121212 !important;
-    color: #e0e0e0 !important;
+    color: #e0e0e0;
     background-image: none !important;
     border-color: #333333 !important;
+}
+
+/* Explicitly preserve inline styles for tags and icons */
+i[style*="color"], span[style*="color"], div[style*="color"] {
+    color: inherit !important;
 }
 
 /* Ribbons and Tabs Active States */
@@ -65,6 +78,18 @@ body, .ui-widget-content, .ui-widget-header,
     background-color: #1e1e1e !important;
     color: var(--primary-color) !important;
     border-bottom: 2px solid var(--primary-color) !important;
+}
+
+/* Menu Selectors and Large Buttons (Export, New Project) */
+.menuSelector, .dialogSelection {
+    background: #1e1e1e !important;
+    background-image: none !important;
+    border: 1px solid #333 !important;
+    color: #e0e0e0 !important;
+}
+.menuSelector:hover, .dialogSelection:hover {
+    background: #2a2a2a !important;
+    border-color: var(--primary-color) !important;
 }
 
 /* Input boxes in panels (like Quick Find, Filter) */
@@ -90,7 +115,7 @@ input.search, input.quickFind, .menuPanelSearch {
 
 .ui-dialog, .ui-dialog-content, .ui-tabs-panel, .options-content, .dialogSection, .dialog, .modal-content {
     background: #1e1e1e !important;
-    color: #e0e0e0 !important;
+    color: #e0e0e0;
 }
 
 /* Fix warning boxes and badges */
