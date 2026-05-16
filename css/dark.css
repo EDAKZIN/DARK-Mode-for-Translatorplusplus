@@ -1,0 +1,84 @@
+/* 
+ * DARK Mode for Translator++
+ * High contrast theme (Pure Black & Pure White)
+ */
+
+:root {
+    /* Fondos */
+    --gr-lv0: #000000;  /* Fondo más oscuro */
+    --gr-lv1: #050505;  /* Fondo común */
+    --gr-lv2: #0a0a0a;  /* Fondo de elementos */
+    --gr-lv3: #111111;
+    --gr-lv4: #1a1a1a;  /* Bordes y divisores */
+
+    /* Texto */
+    --gr-lv12: #ffffff; /* Texto primario */
+    --gr-lv13: #ffffff;
+    --gr-lv14: #ffffff;
+    --gr-lv15: #ffffff;
+    --gr-lv16: #ffffff;
+    
+    --text-color: #ffffff;
+    --text-color-highlighted: #ffffff;
+    
+    /* Acentos */
+    --blue-500: #00e5ff; /* Cyan eléctrico */
+    --primary-color: #00e5ff;
+    --bg-highlighted: #00e5ff;
+
+    /* Grid (Handsontable) */
+    --grid-bg: #000000;
+    --grid-active-cell-bg: #0a0a0a;
+    --table-header-bg: #111111;
+    --table-header-text-color: #ffffff;
+    --table-border-color: #333333;
+    
+    /* Toolbars y Menús */
+    --toolbar-bg: #050505;
+    --main-menu-bg: #0a0a0a;
+    --footer-bg: #000000;
+}
+
+/* Forzar el esquema de color oscuro en el navegador */
+html {
+    color-scheme: dark;
+}
+
+body {
+    background-color: var(--gr-lv0) !important;
+    color: var(--gr-lv12) !important;
+}
+
+/* Ajustes de visibilidad para imágenes/iconos que puedan ser oscuros */
+.toolbar-content img, 
+.cellInfoMenu img, 
+.currentCellTextCtrl img {
+    filter: invert(1) brightness(2);
+}
+
+/* Mejorar el contraste de la selección en la tabla */
+.handsontable td.current, 
+.handsontable th.current {
+    background-color: #1a1a1a !important;
+    color: #ffffff !important;
+    outline: 1px solid var(--primary-color) !important;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #333333;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #444444;
+}
