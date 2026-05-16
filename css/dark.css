@@ -1,84 +1,128 @@
 /* 
  * DARK Mode for Translator++
- * High contrast theme (Pure Black & Pure White)
+ * Extreme High contrast theme (Pure Black & Pure White)
  */
 
 :root {
-    /* Fondos */
-    --gr-lv0: #000000;  /* Fondo más oscuro */
-    --gr-lv1: #050505;  /* Fondo común */
-    --gr-lv2: #0a0a0a;  /* Fondo de elementos */
-    --gr-lv3: #111111;
-    --gr-lv4: #1a1a1a;  /* Bordes y divisores */
+    /* Sobrescribir variables de Translator++ con !important para asegurar prioridad */
+    --gr-lv0: #000000 !important;
+    --gr-lv1: #050505 !important;
+    --gr-lv2: #0a0a0a !important;
+    --gr-lv3: #111111 !important;
+    --gr-lv4: #1a1a1a !important;
+    --gr-lv5: #222222 !important;
 
-    /* Texto */
-    --gr-lv12: #ffffff; /* Texto primario */
-    --gr-lv13: #ffffff;
-    --gr-lv14: #ffffff;
-    --gr-lv15: #ffffff;
-    --gr-lv16: #ffffff;
+    --gr-lv12: #ffffff !important;
+    --gr-lv13: #ffffff !important;
+    --gr-lv14: #ffffff !important;
+    --gr-lv15: #ffffff !important;
+    --gr-lv16: #ffffff !important;
     
-    --text-color: #ffffff;
-    --text-color-highlighted: #ffffff;
+    --text-color: #ffffff !important;
+    --text-color-dark: #ffffff !important;
+    --text-color-highlighted: #ffffff !important;
     
-    /* Acentos */
-    --blue-500: #00e5ff; /* Cyan eléctrico */
-    --primary-color: #00e5ff;
-    --bg-highlighted: #00e5ff;
+    --bg-row-odd: #000000 !important;
+    --bg-row-even: #080808 !important;
+    --bg-highlighted: #00e5ff !important;
+    
+    --primary-color: #00e5ff !important;
+    --blue-500: #00e5ff !important;
 
-    /* Grid (Handsontable) */
-    --grid-bg: #000000;
-    --grid-active-cell-bg: #0a0a0a;
-    --table-header-bg: #111111;
-    --table-header-text-color: #ffffff;
-    --table-border-color: #333333;
-    
-    /* Toolbars y Menús */
-    --toolbar-bg: #050505;
-    --main-menu-bg: #0a0a0a;
-    --footer-bg: #000000;
+    /* Grid */
+    --grid-bg: #000000 !important;
+    --grid-active-cell-bg: #111111 !important;
+    --table-header-bg: #1a1a1a !important;
+    --table-header-text-color: #ffffff !important;
 }
 
-/* Forzar el esquema de color oscuro en el navegador */
+/* Forzar esquema oscuro global */
 html {
-    color-scheme: dark;
+    color-scheme: dark !important;
 }
 
-body {
-    background-color: var(--gr-lv0) !important;
-    color: var(--gr-lv12) !important;
-}
-
-/* Ajustes de visibilidad para imágenes/iconos que puedan ser oscuros */
-.toolbar-content img, 
-.cellInfoMenu img, 
-.currentCellTextCtrl img {
-    filter: invert(1) brightness(2);
-}
-
-/* Mejorar el contraste de la selección en la tabla */
-.handsontable td.current, 
-.handsontable th.current {
-    background-color: #1a1a1a !important;
+/* Reset de fondos generales */
+body, .ui-widget-content, .ui-widget-header, .application-bar, .footer-bar, .left-pane, .right-pane {
+    background-color: #000000 !important;
     color: #ffffff !important;
-    outline: 1px solid var(--primary-color) !important;
+    background-image: none !important;
+}
+
+/* Paneles y Diálogos */
+.ui-dialog, .ui-dialog-content, .ui-tabs-panel, .options-content {
+    background: #050505 !important;
+    color: #ffffff !important;
+}
+
+/* Inputs y Textareas */
+input, textarea, select {
+    background-color: #111111 !important;
+    color: #ffffff !important;
+    border: 1px solid #444 !important;
+}
+
+/* Botones */
+button, .btn, .ui-button {
+    background: #1a1a1a !important;
+    color: #ffffff !important;
+    border: 1px solid #333 !important;
+}
+
+button:hover, .btn:hover {
+    background: #333 !important;
+    border-color: var(--primary-color) !important;
+}
+
+/* Toolbar Buttons */
+.toolbar-button, .menu-button {
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    color: #ffffff !important;
+}
+
+.toolbar-button:hover {
+    background: #222 !important;
+    border-color: #444 !important;
+}
+
+/* Handsontable (Grid de traducción) */
+.handsontable td {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border-color: #222 !important;
+}
+
+.handsontable tr:nth-child(even) td {
+    background-color: #050505 !important;
+}
+
+.handsontable th {
+    background-color: #111111 !important;
+    color: #ffffff !important;
+}
+
+/* Invertir iconos que son negros por defecto */
+img[src*="img/"], .icon- {
+    filter: invert(1) brightness(2) !important;
+}
+
+/* Excepto fotos de usuario o iconos de addons que ya tengan color */
+.addonsIconBlock img, .user-avatar img {
+    filter: none !important;
 }
 
 /* Scrollbars */
 ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    width: 12px !important;
 }
-
 ::-webkit-scrollbar-track {
-    background: #000000;
+    background: #000 !important;
 }
-
 ::-webkit-scrollbar-thumb {
-    background: #333333;
-    border-radius: 5px;
+    background: #333 !important;
+    border: 2px solid #000 !important;
+    border-radius: 6px !important;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-    background: #444444;
+    background: #555 !important;
 }

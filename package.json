@@ -6,9 +6,5 @@
     "version": "1.0.0",
     "author": "EDAKZIN",
     "icon": "icon.png",
-    "autoload": false,
-    "load": [
-        "main.js"
-    ],
-    "minimumVersion": "8.5.13"
+    "autoload": true
 }
