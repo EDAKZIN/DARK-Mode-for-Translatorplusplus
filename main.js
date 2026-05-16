@@ -121,28 +121,44 @@ span:not(.translatedPercent):not(.percent) {
     color: var(--primary-color) !important;
 }
 
-/* Enlaces normales */
-a {
-    color: var(--primary-color);
-    text-decoration: none;
+/* Enlaces específicos (como en diálogos) en CYAN */
+.ui-dialog a, .ui-dialog a *, .tipsNavigator a, .tipsNavigator a * {
+    color: var(--primary-color) !important;
+    text-decoration: none !important;
 }
 
-a:hover {
+.ui-dialog a:hover, .tipsNavigator a:hover {
     color: #ffffff !important;
     text-decoration: underline !important;
 }
 
-/* Logo de la App - Respetar color original o gris muy claro */
+/* Botones de cerrar y otros iconos de sistema - NO CYAN */
+.closeIntroWindow i, .icon-cancel-circled, .icon-cancel-1 {
+    color: #e0e0e0 !important;
+}
+
+/* Logo de la App - Blanco brillante */
 #button-translatorplus::before {
     background: url(/www/img/icon.png) no-repeat center !important;
     background-size: 26px !important;
-    filter: invert(1) brightness(1.5) contrast(1.2) !important;
+    filter: invert(1) brightness(1.8) !important;
 }
 
-/* Explicitly preserve inline styles for tags, icons and status colors */
-i[style*="color"], span[style*="color"], div[style*="color"], 
-.red, .green, .yellow, .blue, .gold, .darkyellow, .status-info, .status-warning, .status-error {
+/* Colores de estado y Log */
+pre[data-type="error"], .status-error, .red { color: #ff5252 !important; }
+pre[data-type="warning"], .status-warning, .yellow, .orange { color: #ffab40 !important; }
+pre[data-type="success"], .status-success, .green { color: #69f0ae !important; }
+pre[data-type="info"], .status-info, .blue, .cyan { color: #40c4ff !important; }
+
+/* Explicitly preserve inline styles for tags and icons */
+i[style*="color"], span[style*="color"], div[style*="color"] {
     color: inherit !important;
+}
+
+pre:not([data-type]), code:not([data-type]), kbd, samp {
+    background-color: transparent !important;
+    color: #e0e0e0 !important;
+    border: none !important;
 }
 
 /* Ribbons and Tabs Active States */
@@ -343,16 +359,16 @@ thisAddon.cssString = cssString;
 /**
  * Inyecta el CSS directamente como un tag <style> en el DOM
  */
-thisAddon.injectCSS = function(wind) {
+thisAddon.injectCSS = function (wind) {
     if (!wind || !wind.document) return;
-    
+
     // Evitar duplicados
     if (wind.document.getElementById("dark-mode-styles")) return;
 
     const style = wind.document.createElement("style");
     style.id = "dark-mode-styles";
     style.innerHTML = thisAddon.cssString;
-    
+
     if (wind.document.body) {
         wind.document.body.appendChild(style);
         wind.document.body.setAttribute("data-theme", "dark");
@@ -365,7 +381,7 @@ thisAddon.injectCSS = function(wind) {
 /**
  * Elimina el CSS inyectado
  */
-thisAddon.removeCSS = function(wind) {
+thisAddon.removeCSS = function (wind) {
     if (!wind || !wind.document) return;
     const style = wind.document.getElementById("dark-mode-styles");
     if (style) style.remove();
@@ -375,17 +391,17 @@ thisAddon.removeCSS = function(wind) {
     }
 };
 
-thisAddon.enable = function() {
+thisAddon.enable = function () {
     thisAddon.injectCSS(window);
 
     if (window.ui && window.ui.windows) {
         for (let key in window.ui.windows) {
-            try { thisAddon.injectCSS(window.ui.windows[key]); } catch (e) {}
+            try { thisAddon.injectCSS(window.ui.windows[key]); } catch (e) { }
         }
     }
 
     if (window.scriptRunner) {
-        window.scriptRunner.applyScript("*", "onReady", ADDON_NAME, function() {
+        window.scriptRunner.applyScript("*", "onReady", ADDON_NAME, function () {
             const parentLoader = window?.top?.addonLoader || window?.opener?.addonLoader || window?.opener?.opener?.addonLoader;
             if (parentLoader) {
                 const addon = parentLoader.getAddon("dark-mode");
@@ -397,12 +413,12 @@ thisAddon.enable = function() {
     }
 };
 
-thisAddon.disable = function() {
+thisAddon.disable = function () {
     thisAddon.removeCSS(window);
 
     if (window.ui && window.ui.windows) {
         for (let key in window.ui.windows) {
-            try { thisAddon.removeCSS(window.ui.windows[key]); } catch (e) {}
+            try { thisAddon.removeCSS(window.ui.windows[key]); } catch (e) { }
         }
     }
 
@@ -419,7 +435,7 @@ thisAddon.optionsForm = {
         "default": true,
         "HOOK": "thisAddon.config.isActive",
         "inlinetitle": "Habilitar modo oscuro",
-        "onChange": function(evt) {
+        "onChange": function (evt) {
             if (this.prop("checked")) {
                 thisAddon.enable();
             } else {
@@ -430,7 +446,7 @@ thisAddon.optionsForm = {
     }
 };
 
-$(document).ready(function() {
+$(document).ready(function () {
     if (typeof thisAddon.config.isActive === 'undefined') {
         thisAddon.config.isActive = true;
     }
