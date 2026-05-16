@@ -50,6 +50,34 @@ const cssString = `
     --grid-active-cell-bg: #222222 !important;
     --table-header-bg: #2d2d2d !important;
     --table-header-text-color: #e0e0e0 !important;
+
+    /* Progress bars and Toggles */
+    --flipswitch-off-color: #555555 !important;
+    --flipswitch-on-color: var(--primary-color) !important;
+    --progress-completed-color: var(--primary-color) !important;
+    --progress-incompleted-color: #333333 !important;
+    --progress-stripe-color: rgba(255, 255, 255, .05) !important;
+
+    /* UI Components Backgrounds */
+    --toolbar-bg: #1a1a1a !important;
+    --footer-bg: #121212 !important;
+    --main-menu-bg: #1a1a1a !important;
+    --tab-content-bg: #121212 !important;
+    --fieldset-bg: #1a1a1a !important;
+    --list-header-bg: #333 !important;
+    --group-header-bg: #333 !important;
+
+    /* Gradients (Kill them) */
+    --bg-gradient-1: #1a1a1a !important;
+    --bg-gradient-2: #1a1a1a !important;
+    --bg-gradient-3: #1a1a1a !important;
+
+    /* Percent Badges */
+    --percent-badge-bg: #222222 !important;
+    --percent-badge-text-color: #ffffff !important;
+    --percent-badge-completed-bg: var(--primary-color) !important;
+    --percent-badge-hover-bg: #333333 !important;
+    --percent-badge-hover-text-color: #ffffff !important;
 }
 
 html { color-scheme: dark !important; }
@@ -61,15 +89,59 @@ body, .ui-widget-content, .ui-widget-header,
 .bottomToolbar, .bottomToolbarIcon, .panel-right-tools,
 #cellSelectionInfo, .cellInfoTabHeader, .tabButtons, .tabButton, 
 .cellInfoMenu, .cellInfoCtrl, .tabSide, .footer-content,
-.subToolbar, .switchableToolbar, #menuPanel, #mainArea, .appActionsLeft, .ribbonMenu {
+.subToolbar, .switchableToolbar, #menuPanel, #mainArea, .appActionsLeft, .ribbonMenu,
+.ui-tabs-nav, .ui-state-default, .ui-widget-header, .ui-state-active, .ui-state-hover,
+.nav-tabs, .nav-tabs > li > a, .nav-tabs > li.active > a {
     background-color: #121212 !important;
-    color: #e0e0e0;
-    background-image: none !important;
+    color: #e0e0e0 !important;
     border-color: #333333 !important;
 }
 
-/* Explicitly preserve inline styles for tags and icons */
-i[style*="color"], span[style*="color"], div[style*="color"] {
+/* Limpiar fondos blancos (gradientes) excepto en los distintivos de progreso */
+body:not(.translatedPercent):not(.percent), 
+.ui-widget-content:not(.translatedPercent):not(.percent), 
+.ui-widget-header:not(.translatedPercent):not(.percent),
+div:not(.translatedPercent):not(.percent),
+span:not(.translatedPercent):not(.percent) {
+    background-image: none !important;
+}
+
+/* Permitir gradientes dinámicos del sistema (como el porcentaje de traducción) */
+.translatedPercent, span.percent {
+    color: #ffffff !important;
+    border-radius: 4px !important;
+    padding: 2px 6px !important;
+    font-weight: bold !important;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.5) !important;
+    border: 1px solid #444 !important;
+}
+
+/* Solo el archivo seleccionado se ve en CYAN */
+.panel-left li.selected, .panel-left li.selected * {
+    color: var(--primary-color) !important;
+}
+
+/* Enlaces normales */
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+a:hover {
+    color: #ffffff !important;
+    text-decoration: underline !important;
+}
+
+/* Logo de la App - Respetar color original o gris muy claro */
+#button-translatorplus::before {
+    background: url(/www/img/icon.png) no-repeat center !important;
+    background-size: 26px !important;
+    filter: invert(1) brightness(1.5) contrast(1.2) !important;
+}
+
+/* Explicitly preserve inline styles for tags, icons and status colors */
+i[style*="color"], span[style*="color"], div[style*="color"], 
+.red, .green, .yellow, .blue, .gold, .darkyellow, .status-info, .status-warning, .status-error {
     color: inherit !important;
 }
 
@@ -128,7 +200,7 @@ input.search, input.quickFind, .menuPanelSearch {
     border-left: 4px solid #ff9800 !important;
 }
 
-input, textarea, select {
+input:not([type="checkbox"].colorTagSelector), textarea, select {
     background-color: #222222 !important;
     color: #e0e0e0 !important;
     border: 1px solid #444 !important;
@@ -169,18 +241,91 @@ button:hover, .btn:hover {
     color: #e0e0e0 !important;
 }
 
-/* Invert strictly ONLY the black image icons inside the main toolbars, avoid global invert! */
-.toolbar-button img, .menu-button img, .bottomToolbarIcon img {
-    filter: invert(1) brightness(2) !important;
+/* Iconos de barra de herramientas: hue-rotate preserva los colores del icono */
+.toolbar-content img, .cellInfoMenu img, .currentCellTextCtrl img,
+div#dialogExport label img, div#dialogImport label img, .invertableImageColor img {
+    filter: invert(1) hue-rotate(180deg) !important;
+}
+
+/* Iconos hover */
+.toolbar-content img:hover, .cellInfoMenu img:hover, .currentCellTextCtrl img:hover {
+    filter: invert(1) hue-rotate(180deg) brightness(1.2) !important;
 }
 
 .addonsIconBlock img, .user-avatar img {
     filter: none !important;
 }
 
-/* Make sure dialog icons and start menu icons don't invert their colors */
-.iconBar img, .dialogSelection img {
-    filter: none !important;
+/* Pantalla inicio: botones grandes de Start a New Project y Open Project */
+.introWindow {
+    background: rgba(10, 10, 10, 0.9) !important;
+    backdrop-filter: blur(5px) !important;
+}
+
+.introWindow * {
+    background: transparent !important;
+    color: #e0e0e0 !important;
+    border-color: #444 !important;
+}
+
+.introWindow .buttonBox, .introWindow .recentProject li {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid #444 !important;
+    border-radius: 4px !important;
+    padding: 15px !important;
+    margin-bottom: 10px !important;
+    transition: all 0.2s ease !important;
+}
+
+.introWindow .buttonBox:hover, .introWindow .recentProject li:hover {
+    background: rgba(0, 188, 212, 0.2) !important;
+    border-color: var(--primary-color) !important;
+    transform: translateX(5px) !important;
+    cursor: pointer !important;
+}
+
+/* Progress Bars Fix */
+progress, .progressBar, .progress {
+    background-color: #252525 !important;
+    border: 1px solid #444 !important;
+    border-radius: 6px !important;
+    overflow: hidden !important;
+}
+
+progress::-webkit-progress-bar {
+    background-color: #252525 !important;
+}
+
+progress::-webkit-progress-value {
+    background-color: var(--primary-color) !important;
+}
+
+.progressValue, .loadingBarProgress, .progress-bar {
+    background-color: var(--primary-color) !important;
+}
+
+/* Toggles / flipSwitch Fix con ANIMACIÓN */
+input[type=checkbox].flipSwitch {
+    transition: all 0.3s ease !important;
+}
+
+input[type=checkbox].flipSwitch:before {
+    color: var(--flipswitch-off-color) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+input[type=checkbox].flipSwitch:checked:before {
+    color: var(--flipswitch-on-color) !important;
+    transform: scale(1.1);
+}
+
+input[type=checkbox].flipSwitch:active:before {
+    transform: scale(0.9);
+}
+
+/* Selected row in panel left */
+.panel-left li.selected {
+    background-color: rgba(0, 188, 212, 0.2) !important;
 }
 
 ::-webkit-scrollbar { width: 12px !important; }
