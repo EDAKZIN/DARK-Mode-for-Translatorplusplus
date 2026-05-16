@@ -356,10 +356,22 @@ input[type=checkbox].flipSwitch:active:before {
 
 thisAddon.cssString = cssString;
 
+// Cargar secciones adicionales desde archivo externo para no saturar main.js
+const path = require('path');
+try {
+    const extraSections = require(path.join(thisAddon.getPath(), 'sections.js'));
+    thisAddon.cssString += Object.values(extraSections).join('\n');
+} catch (e) {
+    console.warn("DARK Mode: No se pudo cargar sections.js o no existe.");
+}
+
 /**
  * Inyecta el CSS directamente como un tag <style> en el DOM
  */
 thisAddon.injectCSS = function (wind) {
+    // Si es una ventana de NW.js, obtener su ventana DOM
+    if (wind && wind.window) wind = wind.window;
+    
     if (!wind || !wind.document) return;
 
     // Evitar duplicados
@@ -382,6 +394,8 @@ thisAddon.injectCSS = function (wind) {
  * Elimina el CSS inyectado
  */
 thisAddon.removeCSS = function (wind) {
+    if (wind && wind.window) wind = wind.window;
+    
     if (!wind || !wind.document) return;
     const style = wind.document.getElementById("dark-mode-styles");
     if (style) style.remove();
@@ -394,20 +408,44 @@ thisAddon.removeCSS = function (wind) {
 thisAddon.enable = function () {
     thisAddon.injectCSS(window);
 
+    // Inyectar en todas las ventanas registradas
     if (window.ui && window.ui.windows) {
         for (let key in window.ui.windows) {
             try { thisAddon.injectCSS(window.ui.windows[key]); } catch (e) { }
         }
     }
 
+    // Listener para la ventana de opciones cuando se abra
+    if (window.ui && typeof window.ui.on === 'function') {
+        window.ui.on("optionsWindowOpened", function() {
+            setTimeout(() => {
+                if (window.ui.windows && window.ui.windows['options']) {
+                    thisAddon.injectCSS(window.ui.windows['options']);
+                }
+                // Fallback: buscar por título si no está en ui.windows
+                if (typeof NWUtil !== 'undefined' && NWUtil.getAllNwWindows) {
+                    NWUtil.getAllNwWindows().then(wins => {
+                        wins.forEach(w => {
+                            if (w.title && w.title.includes("Options")) {
+                                thisAddon.injectCSS(w);
+                            }
+                        });
+                    });
+                }
+            }, 500);
+        });
+    }
+
     if (window.scriptRunner) {
         window.scriptRunner.applyScript("*", "onReady", ADDON_NAME, function () {
-            const parentLoader = window?.top?.addonLoader || window?.opener?.addonLoader || window?.opener?.opener?.addonLoader;
-            if (parentLoader) {
-                const addon = parentLoader.getAddon("dark-mode");
-                if (addon && typeof addon.injectCSS === 'function') {
-                    addon.injectCSS(window);
-                }
+            // Buscar el addon desde la ventana hija
+            const getAddon = () => {
+                const target = window.addonLoader || window.opener?.addonLoader || window.top?.addonLoader;
+                return target ? target.getAddon("dark-mode") : null;
+            };
+            const addon = getAddon();
+            if (addon && typeof addon.injectCSS === 'function') {
+                addon.injectCSS(window);
             }
         });
     }
