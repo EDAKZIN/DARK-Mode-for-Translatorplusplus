@@ -1,7 +1,6 @@
 /**
- * DARK Mode - Real-Time Settings Panel
- * Injects a dynamic Fontello moon icon into the toolbar and provides a native config dialog.
- * All user-facing UI texts are in English for global compatibility.
+ * DARK Mode - Configuration Interface
+ * Luna configurations panel with options toggle.
  */
 
 const fs = require('fs');
@@ -34,7 +33,7 @@ module.exports = function (thisAddon) {
             </button>
         `);
 
-        // Insertar antes del botón de ayuda para mantener armonía visual (restaurado a preferencia del usuario)
+        // Insertar antes del botón de ayuda para mantener armonía visual
         const helpButton = targetToolbar.find('.button-help');
         if (helpButton.length > 0) {
             $button.insertBefore(helpButton);
@@ -87,6 +86,7 @@ module.exports = function (thisAddon) {
                     </div>
                 </label>
             </div>
+
             <p style="font-size: 0.85em; color: #888; margin: 0; line-height: 1.3;">
                 * Preferences are saved automatically to your global Translator++ configurations.
             </p>

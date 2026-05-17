@@ -102,13 +102,16 @@ const cssString = `
     --percent-badge-hover-text-color: #ffffff !important;
 }
 
-html { color-scheme: dark !important; }
+html { 
+    color-scheme: dark !important; 
+    background-color: #121212 !important;
+}
 
 body, .ui-widget-content, .ui-widget-header, 
-.applicationBar, .footer, .panel-left, .panel-right, .panel-wrapper,
-.toolbarGroup, .toolbar, .toolbar-content, .menuPanelTool, .tabsBarTop,
-.fileListWrapperOuter, .fileListWrapper, .fileListUl, .tree,
-.bottomToolbar, .bottomToolbarIcon, .panel-right-tools,
+.applicationBar, .footer, .panel-right, .panel-wrapper,
+.toolbarGroup, .toolbar, .toolbar-content, .tabsBarTop,
+.fileListUl, .tree,
+.bottomToolbarIcon, .panel-right-tools,
 #cellSelectionInfo, .cellInfoTabHeader, .tabButtons, .tabButton, 
 .cellInfoMenu, .cellInfoCtrl, .tabSide, .footer-content,
 .subToolbar, .switchableToolbar, #menuPanel, #mainArea, .appActionsLeft, .ribbonMenu,
@@ -117,6 +120,23 @@ body, .ui-widget-content, .ui-widget-header,
     background-color: #121212 !important;
     color: #e0e0e0 !important;
     border-color: #333333 !important;
+}
+
+/* Sidebar del Panel Izquierdo con profundidad y distinción visual */
+.panel-left, .fileListWrapperOuter, .fileListWrapper, .menuPanelTool {
+    background-color: #161616 !important;
+    color: #e0e0e0 !important;
+}
+
+.panel-left {
+    border-right: 1px solid #252525 !important;
+}
+
+/* Barra inferior del panel izquierdo para separar limpiamente del contenido y del editor */
+.fileListWrapperOuter .bottomToolbar {
+    background-color: #1e1e1e !important;
+    border-top: 1px solid #282828 !important;
+    border-color: #282828 !important;
 }
 
 /* Limpiar fondos blancos (gradientes) excepto en los distintivos de progreso y bloques de stats */
@@ -184,7 +204,14 @@ pre:not([data-type]), code:not([data-type]), kbd, samp {
 }
 
 /* Ribbons and Tabs Active States */
-.tabButton.active, .ribbonMenu.active {
+.tabButton.active {
+    background-color: #1e1e1e !important;
+    color: var(--primary-color) !important;
+    border-top: 2px solid var(--primary-color) !important;
+    border-bottom: none !important;
+}
+
+.ribbonMenu.active {
     background-color: #1e1e1e !important;
     color: var(--primary-color) !important;
     border-bottom: 2px solid var(--primary-color) !important;
@@ -204,9 +231,21 @@ pre:not([data-type]), code:not([data-type]), kbd, samp {
 
 /* Input boxes in panels (like Quick Find, Filter) */
 input.search, input.quickFind, .menuPanelSearch {
-    background-color: #1a1a1a !important;
+    background-color: #222222 !important;
     color: #e0e0e0 !important;
-    border: 1px solid #444 !important;
+    border: 1px solid #333 !important;
+    box-sizing: border-box !important;
+    padding: 4px 8px !important;
+    border-radius: 4px !important;
+}
+
+/* Placeholder elegante cuando no hay datos o proyectos cargados */
+#fileList .fileList.list.fileListUl:empty::before {
+    color: #888888 !important;
+    font-style: italic !important;
+    padding: 12px 15px !important;
+    margin: 0 !important;
+    display: block !important;
 }
 
 /* Lists and Tree nodes in Left Panel */
@@ -474,8 +513,31 @@ thisAddon.applyStylesRealTime = function () {
         console.warn("DARK Mode: Error cargando sections.js", e);
     }
 
+
+
     // Aplicar a la ventana principal de la app
     thisAddon.injectCSS(window);
+
+    // Aplicar al iframe del panel de traducción (Live Translation) si existe
+    if (typeof window !== 'undefined' && window.document) {
+        const iframe = window.document.getElementById("translationPane");
+        if (iframe) {
+            try {
+                if (iframe.contentWindow) {
+                    thisAddon.injectCSS(iframe.contentWindow);
+                }
+                // Si no tiene registrado el listener de carga, agregarlo para inyecciones calientes al cambiar textos
+                if (!iframe._darkModeListenerRegistered) {
+                    iframe._darkModeListenerRegistered = true;
+                    iframe.addEventListener('load', function () {
+                        try {
+                            thisAddon.injectCSS(iframe.contentWindow);
+                        } catch (e) { }
+                    });
+                }
+            } catch (e) { }
+        }
+    }
 
     // Aplicar/remover dinámicamente en todas las ventanas secundarias registradas
     if (window.ui && window.ui.windows) {

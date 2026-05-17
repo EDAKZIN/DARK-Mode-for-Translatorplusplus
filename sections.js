@@ -509,8 +509,86 @@ const secciones = {
             border-top: 1px solid #444 !important;
         }
 
-        body[data-window="find"] .tabContent.targetColumnSelectorOpened .columnSelector .columnList label:hover {
+         body[data-window="find"] .tabContent.targetColumnSelectorOpened .columnSelector .columnList label:hover {
             background-color: rgba(0, 188, 212, 0.15) !important;
+        }
+    `,
+
+    translators: `
+        /* --- ESTILOS DE LIVE TRANSLATION PANE (translator.html) --- */
+        body[data-window="translators"] {
+            background-color: #121212 !important;
+            color: #e0e0e0 !important;
+        }
+
+        body[data-window="translators"] .toolbar {
+            background-color: #1a1a1a !important;
+            border-bottom: 1px solid #333 !important;
+        }
+
+        body[data-window="translators"] .toolbar-content {
+            background-color: transparent !important;
+        }
+
+        body[data-window="translators"] .menu-button {
+            background-color: #2d2d2d !important;
+            border: 1px solid #444 !important;
+            color: #e0e0e0 !important;
+        }
+
+        body[data-window="translators"] .menu-button:hover {
+            background-color: #3a3a3a !important;
+            border-color: var(--primary-color) !important;
+            color: var(--primary-color) !important;
+        }
+
+        body[data-window="translators"] .menu-button img {
+            filter: invert(1) brightness(1.8) !important;
+        }
+
+        body[data-window="translators"] .mainPane {
+            background-color: #121212 !important;
+        }
+
+        /* Tarjetas / Portlets de traductores */
+        body[data-window="translators"] .portlet {
+            background-color: #1a1a1a !important;
+            border-color: #333 !important;
+        }
+
+        body[data-window="translators"] .portlet-header {
+            background-color: #222222 !important;
+            color: #ffffff !important;
+        }
+        
+        body[data-window="translators"] .portlet:hover .portlet-header {
+            background-color: #2a2a2a !important;
+        }
+
+        body[data-window="translators"] .portlet-title {
+            color: #ffffff !important;
+        }
+
+        body[data-window="translators"] .portlet-shortcut {
+            background-color: #111111 !important;
+            color: var(--primary-color) !important;
+            border: 1px solid #333 !important;
+        }
+
+        body[data-window="translators"] .portlet-content {
+            background-color: #121212 !important;
+            color: #e0e0e0 !important;
+            border-top: none !important;
+        }
+
+        body[data-window="translators"] .portlet-status {
+            color: #888888 !important;
+            background-color: #161616 !important;
+            border-top: 1px solid #282828 !important;
+        }
+
+        body[data-window="translators"] .portlet-status img.inlineIcon {
+            filter: invert(1) brightness(1.8) !important;
         }
     `,
     
