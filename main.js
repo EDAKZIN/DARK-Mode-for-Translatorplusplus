@@ -397,6 +397,15 @@ thisAddon.injectCSS = function (wind) {
         return;
     }
 
+    // Verificar si es la ventana de búsqueda y está desactivada por configuración
+    const isFindWindow = wind.document.body && wind.document.body.getAttribute("data-window") === "find";
+    const disableFind = thisAddon.getConfig("disableFind");
+
+    if (isFindWindow && disableFind === true) {
+        thisAddon.removeCSS(wind);
+        return;
+    }
+
     const styleEl = wind.document.getElementById("dark-mode-styles");
     if (styleEl) {
         // Si ya existe, actualizar el estilo en tiempo real
@@ -439,6 +448,7 @@ thisAddon.applyStylesRealTime = function () {
     thisAddon.cssString = cssString;
 
     const disableOptions = thisAddon.getConfig("disableOptions");
+    const disableFind = thisAddon.getConfig("disableFind");
 
     // Cargar secciones adicionales respetando la exclusión configurada
     try {
@@ -450,6 +460,10 @@ thisAddon.applyStylesRealTime = function () {
                 for (let key in extraSections) {
                     // Excluir la sección options si está configurada para desactivarse
                     if (key === 'options' && disableOptions === true) {
+                        continue;
+                    }
+                    // Excluir la sección find si está configurada para desactivarse
+                    if (key === 'find' && disableFind === true) {
                         continue;
                     }
                     thisAddon.cssString += extraSections[key] + '\n';
@@ -470,6 +484,8 @@ thisAddon.applyStylesRealTime = function () {
                 const targetWin = window.ui.windows[key];
                 if (key === 'options' && disableOptions === true) {
                     thisAddon.removeCSS(targetWin);
+                } else if ((key === 'search' || key.startsWith('search')) && disableFind === true) {
+                    thisAddon.removeCSS(targetWin);
                 } else {
                     thisAddon.removeCSS(targetWin);
                     thisAddon.injectCSS(targetWin);
@@ -483,7 +499,39 @@ thisAddon.enable = function () {
     // Aplicar los estilos de forma dinámica según la configuración
     thisAddon.applyStylesRealTime();
 
-    // Listener para la ventana de opciones cuando se abra
+    // Interceptar la apertura de nuevas ventanas de NW.js (como el buscador o la consola de scripts)
+    if (typeof nw !== 'undefined' && nw.Window && typeof nw.Window.open === 'function') {
+        if (!thisAddon._originalNwWindowOpen) {
+            thisAddon._originalNwWindowOpen = nw.Window.open;
+            nw.Window.open = function (url, options, callback) {
+                return thisAddon._originalNwWindowOpen.call(nw.Window, url, options, function (win) {
+                    if (win) {
+                        const targetWin = win.window || win;
+                        if (targetWin) {
+                            const injectFn = () => {
+                                try {
+                                    thisAddon.injectCSS(targetWin);
+                                } catch (e) {
+                                    console.warn("DARK Mode: Error inyectando CSS en nueva ventana", e);
+                                }
+                            };
+                            
+                            // Si la ventana ya cargó, inyectar inmediatamente, si no, registrar listeners
+                            if (targetWin.document && targetWin.document.readyState === 'complete') {
+                                injectFn();
+                            } else {
+                                targetWin.addEventListener('load', injectFn);
+                                targetWin.addEventListener('DOMContentLoaded', injectFn);
+                            }
+                        }
+                    }
+                    if (callback) callback(win);
+                });
+            };
+        }
+    }
+
+    // Listener para la ventana de opciones cuando se abra (por si acaso no pasa por nw.Window.open nativo)
     if (window.ui && typeof window.ui.on === 'function') {
         window.ui.on("optionsWindowOpened", function() {
             setTimeout(() => {
@@ -539,6 +587,12 @@ thisAddon.disable = function () {
         for (let key in window.ui.windows) {
             try { thisAddon.removeCSS(window.ui.windows[key]); } catch (e) { }
         }
+    }
+
+    // Restaurar nw.Window.open original
+    if (thisAddon._originalNwWindowOpen && typeof nw !== 'undefined' && nw.Window) {
+        nw.Window.open = thisAddon._originalNwWindowOpen;
+        delete thisAddon._originalNwWindowOpen;
     }
 
     // Remover el botón de la luna si existe

@@ -7,7 +7,7 @@
 const fs = require('fs');
 const path = require('path');
 
-module.exports = function(thisAddon) {
+module.exports = function (thisAddon) {
     // Solo inyectar la interfaz de configuración en la ventana principal de la aplicación
     if (typeof window === 'undefined' || !window.location.pathname.endsWith('trans.html')) {
         return;
@@ -34,7 +34,7 @@ module.exports = function(thisAddon) {
             </button>
         `);
 
-        // Insertar antes del botón de ayuda para mantener armonía visual
+        // Insertar antes del botón de ayuda para mantener armonía visual (restaurado a preferencia del usuario)
         const helpButton = targetToolbar.find('.button-help');
         if (helpButton.length > 0) {
             $button.insertBefore(helpButton);
@@ -43,7 +43,7 @@ module.exports = function(thisAddon) {
         }
 
         // Evento de clic para abrir la modal de configuración
-        $button.on('click', function(e) {
+        $button.on('click', function (e) {
             e.preventDefault();
             openSettingsDialog();
         });
@@ -61,18 +61,28 @@ module.exports = function(thisAddon) {
 
         // Obtener el estado actual de la configuración del addon
         const disableOptions = thisAddon.getConfig("disableOptions") || false;
+        const disableFind = thisAddon.getConfig("disableFind") || false;
 
         $dialog.html(`
             <p style="margin-bottom: 15px; font-weight: bold; color: var(--text-color, #e0e0e0);">
                 Customize which sections of Translator++ have the Dark Mode addon applied:
             </p>
-            <div style="margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 15px;">
+            <div style="margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 15px; display: flex; flex-direction: column; gap: 15px;">
                 <label style="display: flex; align-items: flex-start; cursor: pointer; font-weight: normal; color: var(--text-color, #e0e0e0); margin: 0;">
                     <input type="checkbox" id="chk-dark-mode-opt" ${disableOptions ? '' : 'checked'} style="margin-right: 10px; margin-top: 3px;" />
                     <div>
                         <strong>Apply Dark Mode to "Options" window</strong>
                         <span style="font-size: 0.85em; color: #888; display: block; margin-top: 4px; line-height: 1.3;">
-                            Includes user profile, Patreon levels, stats badges, and the Add-ons manager. Disable this if you encounter persistent cyan text, white backgrounds, or visual glitches.
+                            Includes user profile, Patreon levels, stats badges, and the Add-ons manager.
+                        </span>
+                    </div>
+                </label>
+                <label style="display: flex; align-items: flex-start; cursor: pointer; font-weight: normal; color: var(--text-color, #e0e0e0); margin: 0;">
+                    <input type="checkbox" id="chk-dark-mode-find" ${disableFind ? '' : 'checked'} style="margin-right: 10px; margin-top: 3px;" />
+                    <div>
+                        <strong>Apply Dark Mode to "Search" window</strong>
+                        <span style="font-size: 0.85em; color: #888; display: block; margin-top: 4px; line-height: 1.3;">
+                            Applies a highly translucent dark design to the find, replace, and put tabs, letting you read underlying grids with maximum comfort.
                         </span>
                     </div>
                 </label>
@@ -92,17 +102,20 @@ module.exports = function(thisAddon) {
             buttons: [
                 {
                     text: "Cancel",
-                    click: function() {
+                    click: function () {
                         $(this).dialog("close");
                     }
                 },
                 {
                     text: "Save & Apply",
-                    click: function() {
+                    click: function () {
                         const applyOptions = $('#chk-dark-mode-opt').prop('checked');
+                        const applyFind = $('#chk-dark-mode-find').prop('checked');
+
                         // Guardar la configuración nativamente
                         thisAddon.setConfig("disableOptions", !applyOptions);
-                        
+                        thisAddon.setConfig("disableFind", !applyFind);
+
                         // Aplicar los cambios inmediatamente en caliente
                         if (typeof thisAddon.applyStylesRealTime === 'function') {
                             thisAddon.applyStylesRealTime();
@@ -116,7 +129,7 @@ module.exports = function(thisAddon) {
     }
 
     // Inicializar inyección del botón al cargar el script
-    $(document).ready(function() {
+    $(document).ready(function () {
         injectToolbarButton();
     });
 };

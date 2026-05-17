@@ -216,6 +216,303 @@ const secciones = {
             color: #ff5252 !important;
         }
     `,
+
+    // Estilos premium oscuros y translúcidos para el Buscador (find.html)
+    find: `
+        /* --- ESTILOS DEL BUSCADOR (find.html) --- */
+        
+        /* Cuerpo oscuro y translúcido - Seguro y aislado para la ventana del buscador */
+        body[data-window="find"] {
+            background-color: rgba(18, 18, 18, 0.7) !important;
+            color: #e0e0e0 !important;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+        }
+
+        /* Borde de la ventana */
+        body[data-window="find"] #appBorder {
+            border: 1px solid #333 !important;
+        }
+
+        /* Barra de aplicación superior */
+        body[data-window="find"] .application-bar {
+            background-color: transparent !important;
+        }
+
+        body[data-window="find"] .application-buttonbar span {
+            color: #aaa !important;
+        }
+
+        body[data-window="find"] .application-buttonbar span:hover {
+            color: #fff !important;
+        }
+
+        body[data-window="find"] .application-buttonbar .icon-cancel:hover {
+            background-color: #e53935 !important;
+            color: #fff !important;
+        }
+
+        /* Pestañas (Find, Replace, Put) */
+        body[data-window="find"] #tabs {
+            background: transparent !important;
+            border: none !important;
+        }
+
+        body[data-window="find"] #tabs .ui-tabs-nav {
+            background-color: rgba(30, 30, 30, 0.5) !important;
+            border-bottom: 1px solid #333 !important;
+            padding: 4px 4px 0 4px !important;
+        }
+
+        body[data-window="find"] #tabs .ui-tabs-nav li {
+            background-color: rgba(45, 45, 45, 0.4) !important;
+            border: 1px solid #333 !important;
+            border-bottom: none !important;
+            border-radius: 4px 4px 0 0 !important;
+            margin-right: 4px !important;
+            transition: background 0.2s !important;
+        }
+
+        body[data-window="find"] #tabs .ui-tabs-nav li:hover {
+            background-color: rgba(60, 60, 60, 0.6) !important;
+        }
+
+        body[data-window="find"] #tabs .ui-tabs-nav li.ui-tabs-active {
+            background-color: rgba(18, 18, 18, 0.75) !important;
+            border-top: 2px solid var(--primary-color) !important;
+            border-left: 1px solid #333 !important;
+            border-right: 1px solid #333 !important;
+        }
+
+        body[data-window="find"] #tabs .ui-tabs-nav li a {
+            color: #aaa !important;
+            transition: color 0.2s !important;
+        }
+
+        body[data-window="find"] #tabs .ui-tabs-nav li.ui-tabs-active a {
+            color: #fff !important;
+            font-weight: bold !important;
+        }
+
+        /* Inputs y Textareas */
+        body[data-window="find"] input[type="search"],
+        body[data-window="find"] textarea,
+        body[data-window="find"] input[type="text"] {
+            background-color: rgba(30, 30, 30, 0.5) !important;
+            border: 1px solid #444 !important;
+            color: #fff !important;
+            border-radius: 4px !important;
+            padding: 4px 8px !important;
+            transition: border-color 0.2s, background-color 0.2s !important;
+        }
+
+        body[data-window="find"] input[type="search"]:focus,
+        body[data-window="find"] textarea:focus,
+        body[data-window="find"] input[type="text"]:focus {
+            border-color: var(--primary-color) !important;
+            background-color: rgba(30, 30, 30, 0.75) !important;
+            outline: none !important;
+        }
+
+        /* Selectores Dropdown - Estilizado compacto para evitar solapamientos y respetar la rejilla (.column4) */
+        body[data-window="find"] select {
+            background-color: rgba(30, 30, 30, 0.5) !important;
+            border: 1px solid #444 !important;
+            color: #fff !important;
+            border-radius: 4px !important;
+            padding: 0 4px !important;
+            height: 20px !important;
+            font-size: 11px !important;
+            vertical-align: middle !important;
+            max-width: 100% !important;
+        }
+
+        body[data-window="find"] select:focus {
+            border-color: var(--primary-color) !important;
+            outline: none !important;
+        }
+
+        /* Botón de Target y Menú desplegable */
+        body[data-window="find"] #find .findOptionButton {
+            background-color: rgba(45, 45, 45, 0.5) !important;
+            border: 1px solid #444 !important;
+            color: #ccc !important;
+            border-left: none !important;
+            height: 24px !important;
+            cursor: pointer !important;
+            border-radius: 0 4px 4px 0 !important;
+        }
+
+        body[data-window="find"] #find .findOptionButton:hover {
+            background-color: var(--primary-color) !important;
+            color: #fff !important;
+        }
+
+        body[data-window="find"] #find .findMenu {
+            background-color: rgba(30, 30, 30, 0.75) !important;
+            border: 1px solid #444 !important;
+            border-top: none !important;
+            color: #ccc !important;
+            border-radius: 0 0 6px 6px !important;
+        }
+
+        /* Selectores de archivos y opciones de check */
+        body[data-window="find"] .findOptions label,
+        body[data-window="find"] .findMenu label,
+        body[data-window="find"] .columnList label {
+            color: #ccc !important;
+            cursor: pointer !important;
+        }
+
+        body[data-window="find"] .findOptions label:hover,
+        body[data-window="find"] .findMenu label:hover {
+            color: #fff !important;
+        }
+
+        body[data-window="find"] .toggleFileSelector {
+            color: #aaa !important;
+        }
+
+        body[data-window="find"] .toggleFileSelector:hover {
+            color: var(--primary-color) !important;
+        }
+
+        /* Caja de selector de archivos */
+        body[data-window="find"] .fileSelector {
+            background-color: rgba(22, 22, 22, 0.6) !important;
+            border: 1px solid #333 !important;
+            border-radius: 6px !important;
+            padding: 8px !important;
+        }
+
+        body[data-window="find"] .fileSelector label {
+            color: #bbb !important;
+            padding: 3px 6px !important;
+            border-radius: 3px !important;
+            transition: background 0.2s !important;
+        }
+
+        body[data-window="find"] .fileSelector label:hover {
+            background-color: rgba(0, 188, 212, 0.15) !important;
+            color: #fff !important;
+        }
+
+        /* Resultados de Búsqueda y Reemplazo */
+        body[data-window="find"] .searchResult,
+        body[data-window="find"] .replaceResult,
+        body[data-window="find"] .putResult {
+            background-color: rgba(22, 22, 22, 0.6) !important;
+            border: 1px solid #333 !important;
+            border-radius: 6px !important;
+        }
+
+        /* Barra superior de resultados */
+        body[data-window="find"] .searchResultHeader {
+            background-color: rgba(30, 30, 30, 0.75) !important;
+            color: #fff !important;
+            border-bottom: 2px solid var(--primary-color) !important;
+        }
+
+        /* Cabecera del contexto de archivo (.resultContext h2) */
+        body[data-window="find"] .searchResult .resultContext h2,
+        body[data-window="find"] .replaceResult .resultContext h2 {
+            background-color: rgba(45, 45, 45, 0.75) !important;
+            color: var(--primary-color) !important;
+            border-bottom: 1px solid #333 !important;
+            font-weight: bold !important;
+            padding: 6px 8px !important;
+        }
+
+        body[data-window="find"] .searchResult .resultContext h2 .contextCount,
+        body[data-window="find"] .replaceResult .resultContext h2 .contextCount {
+            background-color: var(--primary-color) !important;
+            color: #121212 !important;
+            border: none !important;
+            font-weight: bold !important;
+        }
+
+        /* Items individuales de la lista de resultados */
+        body[data-window="find"] .searchResult .resultContext .resultItem,
+        body[data-window="find"] .replaceResult .resultContext .resultItem {
+            border-bottom: 1px solid #252525 !important;
+            transition: background 0.2s, color 0.2s !important;
+        }
+
+        body[data-window="find"] .searchResult .resultContext .resultItem:nth-child(odd),
+        body[data-window="find"] .replaceResult .resultContext .resultItem:nth-child(odd) {
+            background-color: rgba(18, 18, 18, 0.35) !important;
+            color: #ccc !important;
+        }
+
+        body[data-window="find"] .searchResult .resultContext .resultItem:nth-child(even),
+        body[data-window="find"] .replaceResult .resultContext .resultItem:nth-child(even) {
+            background-color: rgba(25, 25, 25, 0.35) !important;
+            color: #ccc !important;
+        }
+
+        /* Hovers y selección */
+        body[data-window="find"] .searchResult .resultContext .resultItem:hover,
+        body[data-window="find"] .replaceResult .resultContext .resultItem:hover {
+            background-color: rgba(0, 188, 212, 0.2) !important;
+            color: #fff !important;
+        }
+
+        body[data-window="find"] .searchResult .resultContext .resultItem.selected,
+        body[data-window="find"] .replaceResult .resultContext .resultItem.selected {
+            background-color: rgba(0, 188, 212, 0.15) !important;
+            border-left: 3px solid var(--primary-color) !important;
+        }
+
+        /* Resaltados de palabras clave (.highlight / .highlight2) */
+        body[data-window="find"] .searchResult .resultContext .resultItem .highlight,
+        body[data-window="find"] .replaceResult .resultContext .resultItem .highlight {
+            background-color: rgba(0, 188, 212, 0.4) !important;
+            color: #fff !important;
+            border-radius: 2px !important;
+            padding: 0 2px !important;
+            font-weight: bold !important;
+        }
+
+        body[data-window="find"] .replaceResult .resultContext .resultItem .highlight2 {
+            background-color: rgba(229, 57, 53, 0.4) !important;
+            color: #fff !important;
+            border-radius: 2px !important;
+            padding: 0 2px !important;
+        }
+
+        /* Textos de referencia */
+        body[data-window="find"] .searchResult .resultItem .texts h1.refference {
+            border-left: 1px solid #444 !important;
+            color: #888 !important;
+        }
+
+        /* Etiquetas de Fila y Columna */
+        body[data-window="find"] .searchResult .resultContext .resultItem .rowLabel,
+        body[data-window="find"] .searchResult .resultContext .resultItem .colLabel,
+        body[data-window="find"] .replaceResult .resultContext .resultItem .rowLabel,
+        body[data-window="find"] .replaceResult .resultContext .resultItem .colLabel {
+            color: #888 !important;
+        }
+
+        /* Caja de selector de columnas modal */
+        body[data-window="find"] .tabContent.targetColumnSelectorOpened .columnSelectorWrapper {
+            background-color: rgba(0, 0, 0, 0.7) !important;
+        }
+
+        body[data-window="find"] .tabContent.targetColumnSelectorOpened .columnSelector {
+            background-color: rgba(30, 30, 30, 0.75) !important;
+            border: 1px solid #444 !important;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+            color: #fff !important;
+        }
+
+        body[data-window="find"] .tabContent.targetColumnSelectorOpened .columnSelector hr {
+            border-top: 1px solid #444 !important;
+        }
+
+        body[data-window="find"] .tabContent.targetColumnSelectorOpened .columnSelector .columnList label:hover {
+            background-color: rgba(0, 188, 212, 0.15) !important;
+        }
+    `,
     
     // Aquí podemos agregar más apartados en el futuro
     tools: `
