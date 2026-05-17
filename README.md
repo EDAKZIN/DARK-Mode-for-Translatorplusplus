@@ -73,7 +73,7 @@ Remove-Item -Path "..\temp_build" -Recurse -Force
 ## 🎮 How to Use
 
 1. Start **Translator++**.
-2. Go to `Options` -> `Add-ons` and install the compiled **`DARK-Mode.tap`** package by drag-and-dropping or importing it.
+2. Go to `Options` -> `Add-ons`, click **"Install from a package"**, select the compiled **`DARK-Mode.tap`** file, and restart **Translator++** to complete the installation.
 3. Locate the **Moon button** in the top right section of the main toolbar next to the Help button.
 4. Click the moon icon to display the **DARK Mode Customizer**:
    - **Apply Dark Mode to "Options" window**: Instantly toggle the dark theme over user stats and add-on tabs.
