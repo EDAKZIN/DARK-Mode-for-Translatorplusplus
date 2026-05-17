@@ -116,25 +116,74 @@ const secciones = {
             border-left: 4px solid var(--primary-color) !important;
         }
 
-        #addons .addonList .addonName { color: var(--primary-color) !important; font-weight: bold !important; }
-        #addons .addonList .addonVersion { color: #888 !important; }
+        #addons .addonList .addonName, #addons .addonList .name {
+            color: var(--primary-color) !important;
+            font-weight: bold !important;
+        }
 
-        /* Pestañas de Addons */
+        #addons .addonList .addonVersion, #addons .addonList .ver {
+            color: #888 !important;
+            font-size: 0.85em !important;
+            margin-left: 8px !important;
+        }
+
+        /* Descripciones legibles en gris claro/blanco suave */
+        #addons .addonList .descBlock {
+            color: #d1d5db !important; /* Gris claro suave, legible y elegante */
+            font-size: 0.95em !important;
+            margin-top: 5px !important;
+            margin-bottom: 5px !important;
+        }
+
+        #addons .addonList .authorBlock,
+        #addons .addonList .addonReq,
+        #addons .addonList .minVer {
+            color: #9ca3af !important; /* Gris intermedio muy claro y elegante */
+            font-size: 0.85em !important;
+        }
+
+        /* Pestañas superiores de Addons con tamaño y márgenes nativos y correctos */
         .horizTabMenu {
             background-color: #1a1a1a !important;
-            border-bottom: 2px solid #333 !important;
+            border-bottom: 1px solid #333 !important;
+            height: 32px !important;
+            display: flex !important;
+            align-items: flex-end !important;
         }
 
-        .horizTabMenu span {
-            padding: 8px 15px !important;
+        .horizTabMenu > * {
+            background-color: #2a2a2a !important;
+            border-top: 1px solid #333 !important;
+            border-left: 1px solid #333 !important;
+            border-right: 1px solid #333 !important;
+            border-radius: 4px 4px 0px 0px !important;
             color: #888 !important;
+            padding: 4px 12px !important;
+            height: 20px !important;
+            display: flex !important;
+            align-items: center !important;
             cursor: pointer !important;
+            margin-right: .2em !important;
+            margin-left: .2em !important;
+            font-size: 10pt !important;
         }
 
-        .horizTabMenu span:hover { color: #fff !important; }
+        .horizTabMenu > *:first-child {
+            margin-left: .8em !important;
+        }
 
-        .horizTabMenu span .selected, .horizTabMenu span i.selected {
-            color: var(--primary-color) !important;
+        .horizTabMenu > *:hover {
+            background-color: #333 !important;
+            color: #fff !important;
+        }
+
+        .horizTabMenu > .selected {
+            background-color: #1a1a1a !important;
+            border-top: 2px solid var(--primary-color) !important;
+            border-left: 1px solid #333 !important;
+            border-right: 1px solid #333 !important;
+            color: #fff !important;
+            margin-bottom: -1px !important;
         }
 
         /* Página de "About" */
