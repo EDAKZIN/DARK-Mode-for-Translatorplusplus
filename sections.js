@@ -31,17 +31,27 @@ const secciones = {
             background-color: #2a2a2a !important;
         }
 
-        .panel-left li.selected {
-            background-color: #333 !important;
-            border-left: 3px solid var(--primary-color) !important;
+        /* User Stats y Botones - Sobreescribir variables nativas de Translator++ */
+        :root {
+            /* Stats de usuario */
+            --user-points-text-color: #ffffff !important;
+            --user-level-text-color: #ffffff !important;
+            --user-points-bg-color: #7e57c2 !important;
+            --user-points-border-color: #5e35b1 !important;
+            --user-level-bg-color: #e53935 !important;
+            --user-level-border-color: #b71c1c !important;
+
+            /* Hover de addons: teal elegante en lugar de blanco */
+            --surface-hover: rgba(0, 188, 212, 0.12) !important;
         }
 
-        .panel-left li a, .panel-left li span.menuTitle {
-            color: #aaaaaa !important;
-        }
 
-        .panel-left li.selected a, .panel-left li.selected span.menuTitle,
-        .panel-left li.selectable:hover a {
+
+        /* Cuando el li del usuario está seleccionado, el texto de los stats debe ser blanco, no cian */
+        li.selected .userStats .statBlock,
+        li.selected .userStats .statBlock span,
+        li.selected .userStats .userLevel,
+        li.selected .userStats .userPoints {
             color: #ffffff !important;
         }
 
@@ -81,25 +91,33 @@ const secciones = {
             background-color: #161616 !important;
         }
 
-        /* Sección de Addons */
-        .addonListHeader {
+        /* Sección de Addons - ELIMINAR BLANCO NATIVO */
+        #addons .addonListHeader, #addons .tabMenu {
             background-color: #1a1a1a !important;
             border-bottom: 1px solid #333 !important;
             padding: 10px !important;
         }
 
-        .addonList {
+        #addons .addonListWrapper, #addons .addonList, .addonsOption.addonList {
             background-color: #1a1a1a !important;
-            border-bottom: 1px solid #222 !important;
+            background-image: none !important;
+            border: 1px solid #333 !important;
             color: #e0e0e0 !important;
-            padding: 12px !important;
+            padding: 15px !important;
+            margin-bottom: 10px !important;
+            border-radius: 8px !important;
         }
 
-        .addonList:nth-child(even) { background-color: #161616 !important; }
-        .addonList:hover { background-color: #252525 !important; }
+        #addons .addonList:nth-child(even) { background-color: #161616 !important; }
+        /* Hover tipo Start New Project: teal suave con borde cian */
+        #addons .addonList:hover {
+            background-color: rgba(0, 188, 212, 0.12) !important;
+            border-color: var(--primary-color) !important;
+            border-left: 4px solid var(--primary-color) !important;
+        }
 
-        .addonList .addonName { color: var(--primary-color) !important; font-weight: bold !important; }
-        .addonList .addonVersion { color: #888 !important; }
+        #addons .addonList .addonName { color: var(--primary-color) !important; font-weight: bold !important; }
+        #addons .addonList .addonVersion { color: #888 !important; }
 
         /* Pestañas de Addons */
         .horizTabMenu {

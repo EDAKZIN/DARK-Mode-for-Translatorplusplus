@@ -27,6 +27,22 @@ const cssString = `
     --gr-lv15: #e0e0e0 !important;
     --gr-lv16: #e0e0e0 !important;
 
+    /* Addon Buttons Variables */
+    --btn-addon-install-bg-color: #28a745 !important;
+    --btn-addon-install-bg-gradient: #28a745 !important;
+    --btn-addon-install-border-color: #218838 !important;
+    --btn-addon-install-text-color: #ffffff !important;
+
+    --btn-addon-uninstall-bg-color: #dc3545 !important;
+    --btn-addon-uninstall-bg-gradient: #dc3545 !important;
+    --btn-addon-uninstall-border-color: #c82333 !important;
+    --btn-addon-uninstall-text-color: #ffffff !important;
+    
+    --btn-addon-update-bg-color: #ffc107 !important;
+    --btn-addon-update-bg-gradient: #ffc107 !important;
+    --btn-addon-update-border-color: #e0a800 !important;
+    --btn-addon-update-text-color: #212529 !important;
+
     /* Override info blocks gradient brightness */
     --infoblock-bg: linear-gradient(rgba(30,30,30,.8), rgba(30,30,30,.9)), url(/www/img/info.png) !important;
     --infoblock-bg-solid: linear-gradient(rgba(30,30,30,.8), rgba(30,30,30,.9)), url(/www/img/info.png), #121212 !important;
@@ -57,6 +73,12 @@ const cssString = `
     --progress-completed-color: var(--primary-color) !important;
     --progress-incompleted-color: #333333 !important;
     --progress-stripe-color: rgba(255, 255, 255, .05) !important;
+
+    /* Addon Buttons Variables */
+    --btn-addon-install-bg-gradient: #28a745 !important;
+    --btn-addon-uninstall-bg-gradient: #dc3545 !important;
+    --btn-addon-install-border-color: #218838 !important;
+    --btn-addon-uninstall-border-color: #c82333 !important;
 
     /* UI Components Backgrounds */
     --toolbar-bg: #1a1a1a !important;
@@ -97,12 +119,12 @@ body, .ui-widget-content, .ui-widget-header,
     border-color: #333333 !important;
 }
 
-/* Limpiar fondos blancos (gradientes) excepto en los distintivos de progreso */
+/* Limpiar fondos blancos (gradientes) excepto en los distintivos de progreso y bloques de stats */
 body:not(.translatedPercent):not(.percent), 
 .ui-widget-content:not(.translatedPercent):not(.percent), 
 .ui-widget-header:not(.translatedPercent):not(.percent),
-div:not(.translatedPercent):not(.percent),
-span:not(.translatedPercent):not(.percent) {
+div:not(.translatedPercent):not(.percent):not(.statBlock),
+span:not(.translatedPercent):not(.percent):not(.statBlock) {
     background-image: none !important;
 }
 
@@ -354,16 +376,8 @@ input[type=checkbox].flipSwitch:active:before {
 ::-webkit-scrollbar-thumb:hover { background: #555555 !important; }
 `;
 
-thisAddon.cssString = cssString;
-
-// Cargar secciones adicionales desde archivo externo para no saturar main.js
 const path = require('path');
-try {
-    const extraSections = require(path.join(thisAddon.getPath(), 'sections.js'));
-    thisAddon.cssString += Object.values(extraSections).join('\n');
-} catch (e) {
-    console.warn("DARK Mode: No se pudo cargar sections.js o no existe.");
-}
+const fs = require('fs');
 
 /**
  * Inyecta el CSS directamente como un tag <style> en el DOM
@@ -374,8 +388,21 @@ thisAddon.injectCSS = function (wind) {
     
     if (!wind || !wind.document) return;
 
-    // Evitar duplicados
-    if (wind.document.getElementById("dark-mode-styles")) return;
+    // Verificar si es la ventana de opciones y está desactivada por configuración
+    const isOptionsWindow = wind.document.title && wind.document.title.includes("Options");
+    const disableOptions = thisAddon.getConfig("disableOptions");
+    
+    if (isOptionsWindow && disableOptions === true) {
+        thisAddon.removeCSS(wind);
+        return;
+    }
+
+    const styleEl = wind.document.getElementById("dark-mode-styles");
+    if (styleEl) {
+        // Si ya existe, actualizar el estilo en tiempo real
+        styleEl.innerHTML = thisAddon.cssString;
+        return;
+    }
 
     const style = wind.document.createElement("style");
     style.id = "dark-mode-styles";
@@ -405,15 +432,56 @@ thisAddon.removeCSS = function (wind) {
     }
 };
 
-thisAddon.enable = function () {
+/**
+ * Procesa y aplica los estilos dinámicos respetando la configuración en tiempo real
+ */
+thisAddon.applyStylesRealTime = function () {
+    thisAddon.cssString = cssString;
+
+    const disableOptions = thisAddon.getConfig("disableOptions");
+
+    // Cargar secciones adicionales respetando la exclusión configurada
+    try {
+        const sectionsPath = path.join(thisAddon.getPathRelativeToRoot(), 'sections.js');
+        if (fs.existsSync(sectionsPath)) {
+            delete require.cache[require.resolve(sectionsPath)];
+            const extraSections = require(sectionsPath);
+            if (extraSections) {
+                for (let key in extraSections) {
+                    // Excluir la sección options si está configurada para desactivarse
+                    if (key === 'options' && disableOptions === true) {
+                        continue;
+                    }
+                    thisAddon.cssString += extraSections[key] + '\n';
+                }
+            }
+        }
+    } catch (e) {
+        console.warn("DARK Mode: Error cargando sections.js", e);
+    }
+
+    // Aplicar a la ventana principal de la app
     thisAddon.injectCSS(window);
 
-    // Inyectar en todas las ventanas registradas
+    // Aplicar/remover dinámicamente en todas las ventanas secundarias registradas
     if (window.ui && window.ui.windows) {
         for (let key in window.ui.windows) {
-            try { thisAddon.injectCSS(window.ui.windows[key]); } catch (e) { }
+            try {
+                const targetWin = window.ui.windows[key];
+                if (key === 'options' && disableOptions === true) {
+                    thisAddon.removeCSS(targetWin);
+                } else {
+                    thisAddon.removeCSS(targetWin);
+                    thisAddon.injectCSS(targetWin);
+                }
+            } catch (e) { }
         }
     }
+};
+
+thisAddon.enable = function () {
+    // Aplicar los estilos de forma dinámica según la configuración
+    thisAddon.applyStylesRealTime();
 
     // Listener para la ventana de opciones cuando se abra
     if (window.ui && typeof window.ui.on === 'function') {
@@ -438,7 +506,6 @@ thisAddon.enable = function () {
 
     if (window.scriptRunner) {
         window.scriptRunner.applyScript("*", "onReady", ADDON_NAME, function () {
-            // Buscar el addon desde la ventana hija
             const getAddon = () => {
                 const target = window.addonLoader || window.opener?.addonLoader || window.top?.addonLoader;
                 return target ? target.getAddon("dark-mode") : null;
@@ -449,6 +516,20 @@ thisAddon.enable = function () {
             }
         });
     }
+
+    // Inicializar el panel de configuración en tiempo real (settings.js)
+    try {
+        const settingsPath = path.join(thisAddon.getPathRelativeToRoot(), 'settings.js');
+        if (fs.existsSync(settingsPath)) {
+            delete require.cache[require.resolve(settingsPath)];
+            const initSettings = require(settingsPath);
+            if (typeof initSettings === 'function') {
+                initSettings(thisAddon);
+            }
+        }
+    } catch (e) {
+        console.warn("DARK Mode: Error cargando settings.js", e);
+    }
 };
 
 thisAddon.disable = function () {
@@ -458,6 +539,11 @@ thisAddon.disable = function () {
         for (let key in window.ui.windows) {
             try { thisAddon.removeCSS(window.ui.windows[key]); } catch (e) { }
         }
+    }
+
+    // Remover el botón de la luna si existe
+    if (typeof $ !== 'undefined') {
+        $('#btn-darkmode-config').remove();
     }
 
     if (window.scriptRunner) {
@@ -500,3 +586,4 @@ $(document).ready(function () {
 if (thisAddon.config && thisAddon.config.isDisabled !== true) {
     thisAddon.enable();
 }
+
