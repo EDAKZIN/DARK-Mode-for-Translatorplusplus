@@ -3,7 +3,7 @@
     "title": "DARK Mode",
     "description": "DARK Mode for Translator++",
     "main": "main.js",
-    "version": "1.0.0",
+    "version": "1.6.2",
     "author": "EDAKZIN",
     "icon": "icon.png",
     "autoload": true
